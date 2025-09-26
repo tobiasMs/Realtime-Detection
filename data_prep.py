@@ -8,7 +8,7 @@ Created on Fri Sep 26 16:05:24 2025
 import os, shutil, random
 from pathlib import Path
 
-def prep_split(src_root=r"C:\Users\tobias.sulistiyo\Realtime-Detection",
+def prep_split(src_root=r"C:\Users\Tobias\pythonProject\Realtime-Detection",
                dst_root="data/DDD", seed=42,
                tvt=(0.75, 0.15, 0.10)):
     random.seed(seed)
