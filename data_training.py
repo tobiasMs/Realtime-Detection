@@ -115,4 +115,4 @@ def train(data_root="data/DDD", out_dir="runs/mobilenetv2",
     print(classification_report(y_true, y_pred, target_names=["non_drowsy","drowsy"]))
 
 if __name__=="__main__":
-    train(epochs=10)
+    train(epochs=5)
