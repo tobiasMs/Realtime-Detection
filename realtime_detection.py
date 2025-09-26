@@ -12,10 +12,11 @@ from torchvision import models, transforms
 import numpy as np
 import time
 import platform
+from PIL import Image
 import os
 
 # === Label & Transform ===
-LABELS = ["non_drowsy", "drowsy"]
+LABELS = ["drowsy", "non_drowsy"]
 mean = [0.485, 0.456, 0.406]
 std  = [0.229, 0.224, 0.225]
 
@@ -36,12 +37,20 @@ def load_model(weights="runs/mobilenetv2/best.pt", device=None):
     return m, device
 
 # === Preprocess Face ===
+# def preprocess_face(frame, box):
+#     x,y,w,h = box
+#     crop = frame[y:y+h, x:x+w]
+#     rgb = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)
+#     rgb_resized = cv2.resize(rgb, (224,224))
+#     tensor = val_tf(rgb_resized).unsqueeze(0)
+#     return tensor
+
 def preprocess_face(frame, box):
-    x,y,w,h = box
+    x, y, w, h = box
     crop = frame[y:y+h, x:x+w]
     rgb = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)
-    rgb_resized = cv2.resize(rgb, (224,224))
-    tensor = val_tf(rgb_resized).unsqueeze(0)
+    img_pil = Image.fromarray(rgb)  # Convert to PIL image
+    tensor = val_tf(img_pil).unsqueeze(0)
     return tensor
 
 # === Buzzer function ===
@@ -51,7 +60,6 @@ def buzzer():
         import winsound
         winsound.Beep(1000, 1000)  # freq=1000Hz, dur=1s
     else:
-        # Linux/Mac
         os.system('play -nq -t alsa synth 1 sine 1000')
 
 # === Main realtime loop ===
@@ -103,7 +111,7 @@ def main(weights="runs/mobilenetv2/best.pt", cam=0):
             # sudah ngantuk ≥ 5 detik
             if elapsed >= 5 and not buzzer_triggered:
                 print("[INFO] Kantuk terdeteksi, buzzer akan bunyi 3 detik lagi...")
-                time.sleep(3)  # tunggu 3 detik
+                time.sleep(3)
                 buzzer()
                 buzzer_triggered = True
         else:
