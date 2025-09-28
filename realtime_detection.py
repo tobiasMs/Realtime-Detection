@@ -109,7 +109,7 @@ def main(weights="runs/mobilenetv2/best.pt", cam=0):
             elapsed = time.time() - drowsy_start
 
             # sudah ngantuk ≥ 5 detik
-            if elapsed >= 5 and not buzzer_triggered:
+            if elapsed >= 3 and not buzzer_triggered:
                 print("[INFO] Kantuk terdeteksi, buzzer akan bunyi 3 detik lagi...")
                 time.sleep(3)
                 buzzer()
