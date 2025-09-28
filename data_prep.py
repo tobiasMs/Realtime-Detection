@@ -10,7 +10,7 @@ from pathlib import Path
 
 def prep_split(src_root=r"C:\Users\Tobias\pythonProject\Realtime-Detection",
                dst_root="data/DDD", seed=42,
-               tvt=(0.75, 0.15, 0.10)):
+               tvt=(0.80, 0.15, 0.10)):
     random.seed(seed)
 
     # Pastikan sesuai dengan nama folder asli
